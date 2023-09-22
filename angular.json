@@ -3,29 +3,31 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "RpgPlaceFrontendGame": {
+    "RpgPlace_frontend_game": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/rpg-place-frontend-game",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
-            "scripts": []
+            "inlineStyleLanguage": "scss",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "webpack.config.js",
+            "commonChunk": false
           },
           "configurations": {
             "production": {
@@ -41,13 +43,8 @@
                   "maximumError": "4kb"
                 }
               ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "extraWebpackConfig": "webpack.prod.config.js"
             },
             "development": {
               "buildOptimizer": false,
@@ -61,40 +58,38 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "port":8090
-          },
+          "builder": "ngx-build-plus:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "RpgPlaceFrontendGame:build:production"
+              "browserTarget": "RpgPlace_frontend_game:build:production",
+              "extraWebpackConfig": "webpack.prod.config.js"
             },
             "development": {
-              "browserTarget": "RpgPlaceFrontendGame:build:development"
+              "browserTarget": "RpgPlace_frontend_game:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4201,
+            "publicHost": "http://localhost:4201",
+            "extraWebpackConfig": "webpack.config.js"
+          }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "ngx-build-plus:extract-i18n",
           "options": {
-            "browserTarget": "RpgPlaceFrontendGame:build"
+            "browserTarget": "RpgPlace_frontend_game:build",
+            "extraWebpackConfig": "webpack.config.js"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "inlineStyleLanguage": "scss",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }
@@ -102,6 +97,6 @@
     }
   },
   "cli": {
-    "analytics": "b1c2b57e-b748-4f4d-be27-22ae6aa4add9"
+    "analytics": "c9bbfa7c-1e7e-43ae-9589-dec88cc4369e"
   }
 }
