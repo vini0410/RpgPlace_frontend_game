@@ -4,10 +4,10 @@ const {
 } = require("@angular-architects/module-federation/webpack");
 
 module.exports = withModuleFederationPlugin({
-  name: "RpgPlace_frontend_game",
+  name: "game",
 
   exposes: {
-    "./Component": "./src/app/app.component.ts",
+    "./game": "./src/app/game/game.component.ts",
   },
 
   shared: {
